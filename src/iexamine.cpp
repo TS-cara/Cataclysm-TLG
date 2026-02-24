@@ -2740,9 +2740,9 @@ void iexamine::fertilize_plant( Character &you, const tripoint_bub_ms &tile,
         planted = you.use_amount( fertilizer, 1 );
     }
 
-    // Reduce the amount of time it takes until the next stage of the plant by
-    // 20% of a seasons length. (default 2.8 days).
-    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
+    // Fertilizer advances the plant's growth by 10% of the season length
+    // (defined in external settings). The default is 9.1 days.
+    const time_duration fertilizerEpoch = calendar::season_length() * 0.1;
 
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -2757,7 +2757,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint_bub_ms &tile,
         return;
     }
 
-    // TODO: item should probably clamp the value on its own
+    // TODO: Fertilizer should probably boost yields.
     seed->set_birthday( seed->birthday() - fertilizerEpoch );
     // The plant furniture has the NOITEM token which prevents adding items on that square,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
