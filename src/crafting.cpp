@@ -315,12 +315,15 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
     float crafting_speed = morale_crafting_speed_multiplier( rec ) *
                            lighting_craft_speed_multiplier( rec ) *
                            limb_score * pain_multi;
-
+    float int_adjustment = get_int() / 100.f;
+    // Int makes up for speed penalties, but doesn't add speed on its own.
+    if( crafting_speed < 1.0f ) {
+        crafting_speed = std::min( 1.f, crafting_speed + int_adjustment );
+    }
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
-
-    add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
-                   get_limb_score( limb_score_manip ), result );
+    add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %1f, int adjustment %2f, crafting speed multiplier %3f",
+                   get_limb_score( limb_score_manip ), int_adjustment, result );
 
     return std::max( result, 0.0f );
 }
