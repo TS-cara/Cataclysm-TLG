@@ -2594,15 +2594,14 @@ bool cata_tiles::draw_from_id_string_internal(
         }
     }
 
-    // Intensity lookup
+    // Intensity lookup.
     if( intensity_level > 0 ) {
         res = find_tile_looks_like( id + "_int" + std::to_string( intensity_level ), category, variant );
         if( res ) {
             tt = &res->tile();
         }
     }
-
-    // Base tile fallback
+    // If a tile with intensity hasn't already been found then fall back to a base tile.
     if( !res ) {
         res = find_tile_looks_like( id, category, variant );
         if( res ) {
@@ -2695,11 +2694,13 @@ bool cata_tiles::draw_from_id_string_internal(
                 const oter_type_str_id tmp( id );
                 if( tmp.is_valid() ) {
                     if( !tmp->is_linear() ) {
-                        // For overmap terrain with connections, make sure rotation stays in bounds
+                        // For overmap terrain with connections, make sure rotation stays in bounds.
                         rota %= om_direction::size;
                         sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
+                        col = tmp->get_color();
                     } else {
                         sym = tmp->get_uint32_symbol();
+                        col = tmp->get_color();
                     }
                 }
                 break;
@@ -2811,14 +2812,20 @@ bool cata_tiles::draw_from_id_string_internal(
             if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
                 rota = 0;
             }
+
             if( tileset_ptr->find_tile_type( generic_id ) ) {
-                return draw_from_id_string_internal( generic_id, pos, subtile, rota, ll, retract, nv_color_active,
-                                                     height_3d, opts );
+                return draw_from_id_string_internal(
+                    generic_id, pos, subtile, rota,
+                    ll, retract, nv_color_active,
+                    height_3d, opts );
             }
+
             generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( tileset_ptr->find_tile_type( generic_id ) ) {
-                return draw_from_id_string_internal( generic_id, pos, subtile, rota, ll, retract, nv_color_active,
-                                                     height_3d, opts );
+                return draw_from_id_string_internal(
+                    generic_id, pos, subtile, rota,
+                    ll, retract, nv_color_active,
+                    height_3d, opts );
             }
         }
     }
@@ -3856,7 +3863,7 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
                     opts.offset = layer_var.offset;
 
                     ret_draw_field = draw_from_id_string(
-                                         sprite_to_draw,
+                                         sprite_to_draw, 
                                          p,
                                          subtile,
                                          rotation,
