@@ -986,7 +986,7 @@ std::optional<int> iuse::poison_tainted( Character *p, item *it, const tripoint_
         p->add_effect( effect_poison, 1_hours );
         return 1;
     }
-    p->add_effect( effect_poison_tainted, 1_hours * (rng( 1, 2 ) ) );
+    p->add_effect( effect_poison_tainted, 1_hours * ( rng( 1, 2 ) ) );
     p->add_effect( effect_foodpoison, 3_hours );
     return 1;
 }

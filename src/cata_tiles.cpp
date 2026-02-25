@@ -2815,17 +2815,17 @@ bool cata_tiles::draw_from_id_string_internal(
 
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string_internal(
-                    generic_id, pos, subtile, rota,
-                    ll, retract, nv_color_active,
-                    height_3d, opts );
+                           generic_id, pos, subtile, rota,
+                           ll, retract, nv_color_active,
+                           height_3d, opts );
             }
 
             generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string_internal(
-                    generic_id, pos, subtile, rota,
-                    ll, retract, nv_color_active,
-                    height_3d, opts );
+                           generic_id, pos, subtile, rota,
+                           ll, retract, nv_color_active,
+                           height_3d, opts );
             }
         }
     }
@@ -3863,7 +3863,7 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
                     opts.offset = layer_var.offset;
 
                     ret_draw_field = draw_from_id_string(
-                                         sprite_to_draw, 
+                                         sprite_to_draw,
                                          p,
                                          subtile,
                                          rotation,
