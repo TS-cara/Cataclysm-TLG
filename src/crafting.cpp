@@ -322,7 +322,8 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
     }
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
-    add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %1f, int adjustment %2f, crafting speed multiplier %3f",
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "Limb score multiplier %1f, int adjustment %2f, crafting speed multiplier %3f",
                    get_limb_score( limb_score_manip ), int_adjustment, result );
 
     return std::max( result, 0.0f );
